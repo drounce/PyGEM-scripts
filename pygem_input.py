@@ -5,14 +5,19 @@ import os
 # External libraries
 import numpy as np
 # Local libaries
+try:
+    import pygem
+except:
+    sys.path.append(os.getcwd() + '/../PyGEM/')
 from pygem.utils._funcs_selectglaciers import get_same_glaciers, glac_num_fromrange, glac_fromcsv, glac_wo_cal
 
 
 #%% ===== MODEL SETUP DIRECTORY =====
 main_directory = os.getcwd()
+main_directory = '/Users/btober/Documents/pygem_data/Output/'      # file path hack if data is in different location from code
 # Output directory
 output_filepath = main_directory + '/../Output/'
-model_run_date = 'July 2 2023'
+model_run_date = 'July 13 2023'
 
 #%% ===== GLACIER SELECTION =====
 rgi_regionsO1 = [13]                 # 1st order region number (RGI V6.0)
@@ -30,9 +35,9 @@ glac_no = ['15.03733'] # Khumbu Glacier
 # glac_no = ['1.10689'] # Columbia Glacier
 # glac_no = ['1.03622'] # LeConte Glacier
 
+
 if glac_no is not None:
     rgi_regionsO1 = sorted(list(set([int(x.split('.')[0]) for x in glac_no])))
-
 
 min_glac_area_km2 = 0                 # Filter for size of glaciers to include (km2). Set to 0 to include all.
 
@@ -231,6 +236,7 @@ sim_stat_cns = ['median', 'mad']
 # Output options
 export_essential_data = True        # Export essential data (ex. mass balance components, ElA, etc.)
 export_binned_thickness = True      # Export binned ice thickness
+export_binned_monthly = True       # Export binned monthly products, annual products are automatically exported with export_binned_thickness = True
 export_binned_area_threshold = 0    # Area threshold for exporting binned ice thickness
 export_extra_vars = True            # Option to export extra variables (temp, prec, melt, acc, etc.)
 
